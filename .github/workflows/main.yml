@@ -1,0 +1,45 @@
+# license: CC0 / public domain
+# https://gist.github.com/iTrooz/4dd70aea9debf80a59f3491601b40a26
+# feel free to use !
+
+name: TMate
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: 'runner'
+        required: true
+        type: choice
+        options:
+        - ubuntu-latest
+        - windows-latest
+        - macos-latest
+      container:
+        description: 'container'
+        required: false
+        type: string
+
+jobs:
+  simple-runner:
+    name: Normal runner
+    if: ${{ ! inputs.container }}
+    runs-on: ${{ inputs.runner }}
+    
+    steps:
+      - uses: mxschmitt/action-tmate@master
+        name: Setup tmate session
+
+  runner-with-container:
+    name: Runner with container
+    if: ${{ inputs.container }}
+    runs-on: ${{ inputs.runner }}
+    
+    container:
+      image: ${{ inputs.container }}
+    
+    steps:
+      - uses: mxschmitt/action-tmate@master
+        name: Setup tmate session
+        with:
+          sudo: false
