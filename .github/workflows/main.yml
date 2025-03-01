@@ -22,6 +22,10 @@ on:
         description: 'container'
         required: false
         type: string
+      command:
+        description: 'command to run instead of tmate'
+        required: false
+        type: string
 
 jobs:
   simple-runner:
@@ -42,7 +46,11 @@ jobs:
       image: ${{ inputs.container }}
     
     steps:
+      - if : ${{ inputs.command }}
+        run: ${{ inputs.command }}
+
       - uses: mxschmitt/action-tmate@master
+        if : ${{ ! inputs.command }}
         name: Setup tmate session
         with:
           sudo: false
