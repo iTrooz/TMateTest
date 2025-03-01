@@ -34,7 +34,12 @@ jobs:
     runs-on: ${{ inputs.runner }}
     
     steps:
+      - name: Run command
+        if : ${{ inputs.command }}
+        run: ${{ inputs.command }}
+
       - uses: mxschmitt/action-tmate@master
+        if : ${{ ! inputs.command }}
         name: Setup tmate session
 
   runner-with-container:
