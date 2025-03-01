@@ -46,7 +46,8 @@ jobs:
       image: ${{ inputs.container }}
     
     steps:
-      - if : ${{ inputs.command }}
+      - name: Run command
+        if : ${{ inputs.command }}
         run: ${{ inputs.command }}
 
       - uses: mxschmitt/action-tmate@master
